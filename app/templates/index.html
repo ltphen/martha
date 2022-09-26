@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Martha voice synthesizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            font-family: Manrope;
+        }
+        svg#L4{
+            width: 100px;
+            height: 30px;
+            margin: 0;
+            display:inline-block;
+        }
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+</head>
+<body>
+    <section class="py-10 bg-gray-50 sm:py-16 lg:py-24">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="max-w-xl mx-auto text-center">
+                <!-- <div class="inline-flex px-4 py-1.5 mx-auto rounded-full bg-gradient-to-r from-fuchsia-600 to-blue-600">
+                    <p class="text-xs font-semibold tracking-widest text-white uppercase">130+ Handcoded Blocks</p>
+                </div> -->
+                <div class="flex items-center justify-between mt-3">
+                    <div class=" text-lg text-gray-700 flex items-center justify-center">
+                        <img src="{{ url_for('static', filename='microphone-svgrepo-com.svg') }}" class="w-5 mr-2"/>
+                        <div>Martha</div>
+                    </div>
+                    <div  class="flex items-center justify-center mt-3 lg:justify-start">
+                        <p class="mr-2 text-base font-weight-600 text-gray-600 text-sm">Powered by </p>
+
+                        <a href="https://ulife.ai"> <img class="flex-shrink-0 object-contain w-10 h-10 overflow-hidden rounded-full" src="https://ulife.ai/img/logo.svg" alt=""></a>
+                    </div>
+                </div>
+                <h2 class="mt-10 text-3xl font-bold leading-tight text-black sm:text-3xl lg:text-4xl">Meet martha, the best text to speech synthesizer ever</h2>
+                <p class="mt-8 text-base leading-relaxed text-gray-600">Write your text below and click on get audio from text. Generate text for an infinite amount of text with no limit</p>
+            </div>
+
+            <form action="#" class="max-w-xl mx-auto mt-10" method="post">
+                <div>
+                    <label class="sr-only"> Search </label>
+                    <div class="relative border-1">
+                        
+                        <textarea type="text" name="text" maxlength="400" placeholder="Enter your text here..." class="block w-full py-3 pl-4 pr-4 text-base font-normal leading-7 text-gray-900 placeholder-gray-500 bg-white border border-gray-500 rounded-md focus:ring-white focus:border-white focus:ring-offset-2" rows="5"></textarea>
+                    </div>
+                    <div id="html_element" class="mt-5"></div>
+                    <br>
+                </div>
+                <div class="mt-5">
+                  
+                    <button 
+                    type="submit" class="rounded-lg inline-flex items-center justify-center w-full px-4 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all duration-200 bg-gray-900 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white hover:bg-gray-700 ">
+                        <span>Get audio from text</span>
+                        <div class="hidden" id="svg_container">
+                            <svg version="1.1" id="L4"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+                            <circle fill="#fff" stroke="none" cx="6" cy="50" r="6">
+                                <animate
+                                attributeName="opacity"
+                                dur="1s"
+                                values="0;1;0"
+                                repeatCount="indefinite"
+                                begin="0.1"/>    
+                            </circle>
+                            <circle fill="#fff" stroke="none" cx="26" cy="50" r="6">
+                                <animate
+                                attributeName="opacity"
+                                dur="1s"
+                                values="0;1;0"
+                                repeatCount="indefinite" 
+                                begin="0.2"/>       
+                            </circle>
+                            <circle fill="#fff" stroke="none" cx="46" cy="50" r="6">
+                                <animate
+                                attributeName="opacity"
+                                dur="1s"
+                                values="0;1;0"
+                                repeatCount="indefinite" 
+                                begin="0.3"/>     
+                            </circle>
+                            </svg>
+                        </div>
+                       
+                    </button>
+                    <div class="mt-8 border-t hidden" id="result">
+                        <audio controls class="w-full mt-8" id="audio_output" src="{{ url_for('static', filename='tts_output.wav') }}">
+                            
+                          </audio>
+                        <div id="download" class="cursor-pointer mt-5 rounded-lg inline-flex items-center justify-center w-full px-4 py-4 text-sm font-bold tracking-widest text-white uppercase transition-all duration-200 bg-blue-400 border border-transparent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white hover:bg-gray-700 ">
+                            Download file
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="grid grid-cols-1 gap-5 mt-12 sm:grid-cols-3 lg:mt-20 lg:gap-x-12">
+                <div class="transition-all duration-200 bg-white hover:shadow-xl">
+                    <div class="py-10 px-9">
+                        <svg class="w-16 h-16 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        <h3 class="mt-8 text-lg font-semibold text-black">Simple text to speech</h3>
+                        <p class="mt-4 text-base text-gray-600"> A quick way to generate audio from any text for free and without text limit. Generate your audio from any text online </p>
+                    </div>
+                </div>
+
+                <div class="transition-all duration-200 bg-white hover:shadow-xl">
+                    <div class="py-10 px-9">
+                        <svg class="w-16 h-16 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                        </svg>
+                        <h3 class="mt-8 text-lg font-semibold text-black">Best sound quality</h3>
+                        <p class="mt-4 text-base text-gray-600">You will get the perfect and most clear human voice from your text in a seconds. Start synthesizing your text now</p>
+                    </div>
+                </div>
+
+                <div class="transition-all duration-200 bg-white hover:shadow-xl">
+                    <div class="py-10 px-9">
+                        <svg class="w-16 h-16 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                        <h3 class="mt-8 text-lg font-semibold text-black">Free and open source </h3>
+                        <p class="mt-4 text-base text-gray-600"> You can fork the code source here and see the creation process on youtube on this channel. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer>
+    </script>
+    <script>
+        let captha;
+        let apiError = false
+        let audioFile;
+        var onloadCallback = function() {
+        captha = grecaptcha.render('html_element', {
+          'sitekey' : '6LdsRxEiAAAAAPm5jYqyB4lD4wW90RjgA0zO4Ao0'
+        });
+      };
+      function toggleLoader () {
+        document.querySelector("#svg_container").classList.toggle("hidden")
+        document.querySelector("button span").classList.toggle("hidden")
+      }
+      submit = async (e) =>{
+        document.querySelector("#result").classList.add("hidden")
+        toggleLoader()
+        let data = new FormData(e.target)
+            e.preventDefault()
+            if( !grecaptcha.getResponse(captha) ){
+                alert("Fill the recaptcha please !")
+                toggleLoader()
+                return;
+            }
+            fetch("/call/martha", {
+                method: 'POST', 
+                body: data
+            }).then(async (response) => {
+                if(response)
+                if(response.status!= 200) {
+                    let data = await response.json();
+                    apiError = true;
+                    alert("Please check the text and the recaptha again")
+                    grecaptcha.reset(
+                        captha
+                    )
+                }else{
+                    const reader = response.body.getReader();
+                    return new ReadableStream({
+                        start(controller) {
+                            return pump();
+                            function pump() {
+                            return reader.read().then(({ done, value }) => {
+                                if (done) {
+                                controller.close();
+                                return;
+                                }
+                                controller.enqueue(value);
+                                return pump();
+                            });
+                            }
+                        }
+                })
+                }
+               
+            })
+            .then((stream) => new Response(stream))
+            .then((response) => response.blob())
+            .then((blob) => {
+                
+                return URL.createObjectURL(blob)
+            })
+            .then((url) => {
+                audioFile = url
+                if(!apiError){
+                    document.querySelector("#audio_output").src = url
+                    document.querySelector("#result").classList.remove("hidden")
+                }
+               
+                toggleLoader()
+                grecaptcha.reset(
+                        captha
+                    )
+            })
+            .catch((err) => {
+                grecaptcha.reset(
+                    captha
+                )
+            });
+        }
+
+        function download() {
+            const elem = window.document.createElement('a');
+                elem.href =audioFile;
+                elem.download = "martha_audio_ulife_ai.wav";        
+                document.body.appendChild(elem);
+                elem.click();        
+                document.body.removeChild(elem);
+        }
+      
+
+        window.onload = function(){
+            document.querySelector("form").addEventListener("submit",  submit)
+            document.querySelector("#download").addEventListener("click",  download)
+
+        }
+    
+      </script>
+
+</body>
+</html>
